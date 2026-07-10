@@ -2,9 +2,7 @@ package com.marcosnathan.ownvault.model
 
 import kotlin.time.Instant
 
-/**
- *
- */
+
 data class EncryptedFile(
     val id: String,
     val name: String,
