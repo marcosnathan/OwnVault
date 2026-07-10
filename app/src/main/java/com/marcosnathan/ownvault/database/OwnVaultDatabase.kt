@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.marcosnathan.ownvault.database.converters.InstantConverter
+import com.marcosnathan.ownvault.database.dao.EncryptedFileDao
 import com.marcosnathan.ownvault.database.dao.FolderDao
 import com.marcosnathan.ownvault.database.model.EncryptedFileEntity
 import com.marcosnathan.ownvault.database.model.FolderEntity
@@ -17,4 +18,6 @@ import com.marcosnathan.ownvault.database.model.FolderEntity
 )
 abstract class OwnVaultDatabase : RoomDatabase() {
     abstract fun folderDao() : FolderDao
+
+    abstract fun encryptedFileDao() : EncryptedFileDao
 }
