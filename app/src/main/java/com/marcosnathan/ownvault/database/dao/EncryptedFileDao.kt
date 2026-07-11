@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EncryptedFileDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(encryptedFileEntity: EncryptedFileEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -26,7 +26,7 @@ interface EncryptedFileDao {
 
     @Transaction
     @Query("""
-        SELECT * FROM encrypted_files JOIN folders f WHERE f.id = :folderId ORDER BY :column DESC
+        SELECT * FROM encrypted_files WHERE folder_id = :folderId ORDER BY :column DESC
     """)
     fun getAll(
         folderId: Long,

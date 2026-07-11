@@ -1,4 +1,4 @@
-package com.marcosnathan.ownvault
+package com.marcosnathan.ownvault.database
 
 import android.database.sqlite.SQLiteConstraintException
 import com.marcosnathan.ownvault.database.model.FolderEntity
@@ -24,7 +24,7 @@ class FolderDaoTest : DatabaseTest() {
         folderDao.insert(folder1)
         val allFolders = folderDao.getAll().first()
         assertEquals(1, allFolders.size)
-        assertEquals(folder1, allFolders[0].folder.copy(
+        assertEquals(folder1, allFolders[0].copy(
             createdAt = folder1.createdAt
         ))
 
@@ -33,7 +33,7 @@ class FolderDaoTest : DatabaseTest() {
     @Test
     fun folderDao_deleteFolder_folderDeleted() = runTest {
         folderDao.insert(folder1)
-        folderDao.delete(folder1)
+        folderDao.delete(folder1.id)
         val allFolders = folderDao.getAll().first()
         assertEquals(0, allFolders.size)
     }
@@ -48,7 +48,7 @@ class FolderDaoTest : DatabaseTest() {
         )
         val allFolders = folderDao.getAll().first()
         assertEquals(1, allFolders.size)
-        assertEquals("New Folder 1", allFolders[0].folder.name)
+        assertEquals("New Folder 1", allFolders[0].name)
     }
 
     @Test
@@ -56,10 +56,10 @@ class FolderDaoTest : DatabaseTest() {
         folderDao.insert(folder2)
         folderDao.insert(folder1)
         val allFolders = folderDao.getAll().first()
-        assertEquals(folder1, allFolders[0].folder.copy(
+        assertEquals(folder1, allFolders[0].copy(
             createdAt = folder1.createdAt
         ))
-        assertEquals(folder2, allFolders[1].folder.copy(
+        assertEquals(folder2, allFolders[1].copy(
             createdAt = folder2.createdAt
         ))
     }
@@ -79,10 +79,10 @@ class FolderDaoTest : DatabaseTest() {
         )
 
         val allFolders = folderDao.getAll("created_at").first()
-        assertEquals(recentFolder, allFolders[0].folder.copy(
+        assertEquals(recentFolder, allFolders[0].copy(
             createdAt = recentFolder.createdAt
         ))
-        assertEquals(oldestFolder, allFolders[1].folder.copy(
+        assertEquals(oldestFolder, allFolders[1].copy(
             createdAt = oldestFolder.createdAt
         ))
     }
@@ -95,5 +95,16 @@ class FolderDaoTest : DatabaseTest() {
                 id = 2
             )
         )
+    }
+
+    @Test
+    fun folderDao_deleteFolders_FoldersDeleted() = runTest {
+        folderDao.insert(folder1)
+        folderDao.insert(folder2)
+        var allFolders = folderDao.getAll().first()
+        assertEquals(2, allFolders.size)
+        folderDao.deleteFolders(listOf(folder1.id, folder2.id))
+        allFolders = folderDao.getAll().first()
+        assertEquals(0, allFolders.size)
     }
 }

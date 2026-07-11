@@ -1,4 +1,4 @@
-package com.marcosnathan.ownvault
+package com.marcosnathan.ownvault.database
 
 import com.marcosnathan.ownvault.database.model.EncryptedFileEntity
 import com.marcosnathan.ownvault.database.model.FolderEntity
@@ -131,7 +131,7 @@ class EncryptedFileDaoTest : DatabaseTest() {
     @Test
     fun encryptedFileDao_deleteFolder_areFilesFromFolderDeleted() = runTest {
         initAll()
-        folderDao.delete(folder)
+        folderDao.delete(folder.id)
         val allItemsFromFolder = encryptedFileDao.getAll(
             folderId = folder.id
         ).first()

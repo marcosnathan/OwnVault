@@ -30,7 +30,7 @@ data class EncryptedFileEntity(
     val encryptedAt: Instant = Clock.System.now(),
 
     @ColumnInfo(name = "folder_id", index = true)
-    val folderId: Long
+    val folderId: Long? = null
 )
 
 fun EncryptedFileEntity.asExternalModel() = EncryptedFile(
@@ -39,5 +39,14 @@ fun EncryptedFileEntity.asExternalModel() = EncryptedFile(
     size = size,
     savedPath = savedPath,
     extension = extension,
-    encryptedAt = encryptedAt
+    encryptedAt = encryptedAt,
+)
+
+fun EncryptedFile.toEntity(folderId: Long? = null) = EncryptedFileEntity(
+    id = id,
+    name = name,
+    size = size,
+    savedPath = savedPath,
+    extension = extension,
+    folderId = folderId
 )

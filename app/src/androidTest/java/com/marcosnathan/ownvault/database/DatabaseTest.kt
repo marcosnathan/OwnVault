@@ -1,9 +1,8 @@
-package com.marcosnathan.ownvault
+package com.marcosnathan.ownvault.database
 
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.marcosnathan.ownvault.database.OwnVaultDatabase
 import com.marcosnathan.ownvault.database.dao.EncryptedFileDao
 import com.marcosnathan.ownvault.database.dao.FolderDao
 import org.junit.After
