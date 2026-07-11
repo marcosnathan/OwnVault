@@ -22,20 +22,15 @@ data class FolderEntity(
     val createdAt: Instant = Clock.System.now()
 )
 
-data class FolderWithFiles(
-    @Embedded val folder: FolderEntity,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "folder_id"
-    )
-    val encryptedFiles: List<EncryptedFileEntity> = emptyList()
+
+fun FolderEntity.asExternalModel() = Folder(
+    id = id,
+    name = name,
+    isProtected = password != null,
+    createdAt = createdAt
 )
 
-
-fun FolderWithFiles.asExternalModel() = Folder(
-    id = folder.id,
-    name = folder.name,
-    files = encryptedFiles.map(EncryptedFileEntity::asExternalModel),
-    isProtected = folder.password != null,
-    createdAt = folder.createdAt,
+fun Folder.toEntity() = FolderEntity(
+    id = id,
+    name = name,
 )
