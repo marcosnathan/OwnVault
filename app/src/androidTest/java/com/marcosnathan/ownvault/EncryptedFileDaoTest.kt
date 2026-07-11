@@ -1,5 +1,6 @@
 package com.marcosnathan.ownvault
 
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import com.marcosnathan.ownvault.database.model.EncryptedFileEntity
 import com.marcosnathan.ownvault.database.model.FolderEntity
 import kotlinx.coroutines.flow.filterNot
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.time.Clock
 
@@ -136,5 +138,13 @@ class EncryptedFileDaoTest : DatabaseTest() {
             folderId = folder.id
         ).first()
         assertEquals(emptyList<EncryptedFileEntity>(), allItemsFromFolder)
+    }
+
+    @Test
+    fun encryptedFileDao_insertDuplicatedFile_fileIsIgnored() = runTest {
+        initAll()
+        val duplicatedFile = encryptedFilesFolder1[0]
+        val insertedFiles = encryptedFileDao.insertFiles(listOf(duplicatedFile))
+        assertTrue(insertedFiles.all { it == -1L })
     }
 }
