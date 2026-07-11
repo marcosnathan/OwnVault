@@ -7,9 +7,10 @@ import com.marcosnathan.ownvault.database.model.toEntity
 import com.marcosnathan.ownvault.model.Folder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Single
 
 enum class FolderOrder(val column: String) {
-    DATA("created_at"),
+    DATE("created_at"),
     NAME("name"),
     SIZE("size")
 }
@@ -26,6 +27,7 @@ interface FolderRepository {
     fun getAll(folderOrder: FolderOrder = FolderOrder.NAME) : Flow<List<Folder>>
 }
 
+@Single
 class OfflineFolderRepository(
     private val folderDao: FolderDao
 ) : FolderRepository {
