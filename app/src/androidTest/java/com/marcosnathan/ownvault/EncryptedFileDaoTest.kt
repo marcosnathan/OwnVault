@@ -1,9 +1,7 @@
 package com.marcosnathan.ownvault
 
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import com.marcosnathan.ownvault.database.model.EncryptedFileEntity
 import com.marcosnathan.ownvault.database.model.FolderEntity
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
