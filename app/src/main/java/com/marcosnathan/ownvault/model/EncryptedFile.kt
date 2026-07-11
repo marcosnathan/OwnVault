@@ -4,7 +4,7 @@ import kotlin.time.Instant
 
 
 data class EncryptedFile(
-    val id: String,
+    val id: Long,
     val name: String,
     val size: Long,
     val savedPath: String,
