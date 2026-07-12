@@ -1,71 +1,115 @@
 package com.marcosnathan.ownvault.ui.home
 
-import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CreateNewFolder
+import androidx.compose.material.icons.outlined.FilterList
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.marcosnathan.ownvault.data.FolderOrder
-import com.marcosnathan.ownvault.model.Folder
+import com.marcosnathan.ownvault.R
+import com.marcosnathan.ownvault.ui.theme.OwnVaultTheme
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     HomeContent(
         uiState = uiState,
-        onSortFolder = viewModel::changeSort,
-        onCreateFolder = viewModel::createFolder,
-        modifier = modifier
+        onAction = viewModel::executeIntent
     )
 }
 
+@SuppressLint("RestrictedApi")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeContent(
     uiState: HomeUiState,
-    onSortFolder: (FolderOrder) -> Unit,
-    onCreateFolder: (Folder) -> Unit,
-    modifier: Modifier = Modifier
+    onAction: (HomeUserIntent) -> Unit
 ) {
-    Log.i("HomeContent", "HomeContent: ${uiState.folders.map { it.name.plus(" | ").plus(it.createdAt) }}")
+    val scrollBehavior =  TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    Scaffold(
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .fillMaxSize(),
+        topBar = {
+            MediumTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.home_topappbar_title),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                },
+                scrollBehavior = scrollBehavior,
+                actions = {
+                    IconButton(
+                        onClick = {
 
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Button(
-            onClick = {
-                onSortFolder(FolderOrder.NAME)
-            }
-        ) {
-            Text("Sort by name")
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.FilterList,
+                            contentDescription = stringResource(R.string.home_topappbar_reorder_folders_action)
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.CreateNewFolder,
+                            contentDescription = stringResource(R.string.home_topappbar_create_new_folder_action)
+                        )
+                    }
+
+                }
+            )
         }
-        Button(
-            onClick = {
-                onSortFolder(FolderOrder.SIZE)
-            }
+    ) { innerPadding ->
+        LazyColumn (
+            modifier = Modifier.padding(innerPadding)
         ) {
-            Text("Sort by size")
-        }
-        Button(
-            onClick = {
-                onSortFolder(FolderOrder.DATE)
+            item {
+                Text("home: ${uiState.folders.size}")
             }
-        ) {
-            Text("Sort by date")
+
+           items(
+               items = (0 .. 100).toList(),
+               key = { number -> number}
+           ) {
+               Text("Item: $it")
+           }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun HomeScreenPreview() {
+    OwnVaultTheme {
+        HomeContent(
+            uiState = HomeUiState(),
+            onAction = {}
+        )
     }
 }

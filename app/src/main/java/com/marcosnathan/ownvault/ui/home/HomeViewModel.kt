@@ -8,6 +8,7 @@ import com.marcosnathan.ownvault.model.Folder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -19,15 +20,21 @@ import org.koin.core.annotation.KoinViewModel
 class HomeViewModel(
     private val folderRepository: FolderRepository
 ) : ViewModel() {
-
-    private var _sort = MutableStateFlow(FolderOrder.NAME)
+    private val folderOrder = MutableStateFlow(FolderOrder.NAME)
     @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState = _sort.flatMapLatest(folderRepository::getAll)
-        .map {
+    val uiState = folderOrder.flatMapLatest(folderRepository::getAll)
+        .map { folders ->
             HomeUiState(
-                folders = it,
-                isLoading = false,
-                selectedFolderOrder = _sort.value
+                folders = folders,
+                selectedFolderOrder = folderOrder.value,
+                isLoading = false
+            )
+        }
+        .catch { throwable ->
+            emit(
+                HomeUiState(
+                    error = throwable.message ?: "Failed to fetch folders"
+                )
             )
         }
         .stateIn(
@@ -36,13 +43,32 @@ class HomeViewModel(
             initialValue = HomeUiState()
         )
 
-    fun changeSort(sort: FolderOrder){
-        _sort.update { sort }
+
+    fun executeIntent(intent: HomeUserIntent) {
+        when (intent) {
+            is HomeUserIntent.CreateFolder -> handleCreateFolder(intent.name)
+            is HomeUserIntent.DeleteFolders -> handleDeleteFolders(intent.ids)
+            is HomeUserIntent.SortFolder -> handleSortFolders(intent.order)
+        }
     }
 
-    fun createFolder(folder: Folder) {
+    private fun handleCreateFolder(name: String) {
         viewModelScope.launch {
-            folderRepository.insert(folder)
+            folderRepository.insert(
+                Folder(
+                    name = name
+                )
+            )
         }
+    }
+
+    private fun handleDeleteFolders(ids: List<Long>) {
+        viewModelScope.launch {
+            folderRepository.deleteFolders(ids)
+        }
+    }
+
+    private fun handleSortFolders(order: FolderOrder) {
+        folderOrder.update { order }
     }
 }

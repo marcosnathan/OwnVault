@@ -20,6 +20,8 @@ interface FolderRepository {
 
     suspend fun delete(id: Long)
 
+    suspend fun deleteFolders(ids: List<Long>)
+
     suspend fun insert(folder: Folder)
 
     suspend fun update(folder: Folder)
@@ -36,6 +38,8 @@ class OfflineFolderRepository(
         .map { it?.asExternalModel() }
 
     override suspend fun delete(id: Long) = folderDao.delete(id)
+
+    override suspend fun deleteFolders(ids: List<Long>) = folderDao.deleteFolders(ids)
 
     override suspend fun insert(folder: Folder) = folderDao.insert(folder.toEntity())
 
