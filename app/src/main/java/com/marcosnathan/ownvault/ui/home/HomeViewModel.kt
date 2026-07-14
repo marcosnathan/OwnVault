@@ -1,16 +1,19 @@
 package com.marcosnathan.ownvault.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcosnathan.ownvault.data.FolderOrder
 import com.marcosnathan.ownvault.data.FolderRepository
 import com.marcosnathan.ownvault.model.Folder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,7 +25,8 @@ class HomeViewModel(
 ) : ViewModel() {
     private val folderOrder = MutableStateFlow(FolderOrder.NAME)
     @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState = folderOrder.flatMapLatest(folderRepository::getAll)
+    val uiState = folderOrder
+        .flatMapLatest(folderRepository::getAll)
         .map { folders ->
             HomeUiState(
                 folders = folders,
@@ -43,6 +47,8 @@ class HomeViewModel(
             initialValue = HomeUiState()
         )
 
+    private val internalUiEvents = Channel<HomeUiEvent>()
+    val uiEvents = internalUiEvents.receiveAsFlow()
 
     fun executeIntent(intent: HomeUserIntent) {
         when (intent) {
@@ -54,11 +60,15 @@ class HomeViewModel(
 
     private fun handleCreateFolder(name: String) {
         viewModelScope.launch {
-            folderRepository.insert(
-                Folder(
-                    name = name
+            try {
+                folderRepository.insert(
+                    Folder(
+                        name = name
+                    )
                 )
-            )
+            } catch (e: Exception){
+                Log.i(HomeViewModel::class.simpleName, "handleCreateFolder: $e")
+            }
         }
     }
 

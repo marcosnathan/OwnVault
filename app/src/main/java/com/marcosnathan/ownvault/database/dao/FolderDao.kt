@@ -12,9 +12,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FolderDao {
 
-    @Transaction
-    @Query("SELECT * FROM folders ORDER BY :column DESC")
-    fun getAll(column: String = "name") : Flow<List<FolderEntity>>
+    @Query("""
+        SELECT * FROM folders ORDER BY name DESC
+    """)
+    fun getAllByNameDesc() : Flow<List<FolderEntity>>
+
+    @Query("""
+        SELECT * FROM folders ORDER BY created_at DESC
+    """)
+    fun getAllByDateDesc() : Flow<List<FolderEntity>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(folder: FolderEntity)

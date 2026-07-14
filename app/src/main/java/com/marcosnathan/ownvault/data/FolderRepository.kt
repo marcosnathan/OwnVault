@@ -9,11 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single
 
-enum class FolderOrder(val column: String) {
-    DATE("created_at"),
-    NAME("name"),
-    SIZE("size")
+enum class FolderOrder {
+    DATE,
+    NAME
 }
+
+
 
 interface FolderRepository {
     fun getOne(id: Long): Flow<Folder?>
@@ -26,7 +27,7 @@ interface FolderRepository {
 
     suspend fun update(folder: Folder)
 
-    fun getAll(folderOrder: FolderOrder = FolderOrder.NAME) : Flow<List<Folder>>
+    fun getAll(folderOrder: FolderOrder) : Flow<List<Folder>>
 }
 
 @Single
@@ -45,8 +46,11 @@ class OfflineFolderRepository(
 
     override suspend fun update(folder: Folder) = folderDao.update(folder.toEntity())
 
-    override fun getAll(folderOrder: FolderOrder): Flow<List<Folder>> =
-        folderDao.getAll(folderOrder.column).map {
-            it.map(FolderEntity::asExternalModel)
-        }
+    override fun getAll(folderOrder: FolderOrder): Flow<List<Folder>> = when(folderOrder){
+        FolderOrder.DATE -> folderDao.getAllByDateDesc()
+        FolderOrder.NAME -> folderDao.getAllByNameDesc()
+    }.map {
+        it.map(FolderEntity::asExternalModel)
+    }
+
 }
