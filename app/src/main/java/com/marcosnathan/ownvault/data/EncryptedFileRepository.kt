@@ -7,6 +7,7 @@ import com.marcosnathan.ownvault.database.model.toEntity
 import com.marcosnathan.ownvault.model.EncryptedFile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Single
 import kotlin.collections.map
 
 enum class FileOrder(val column: String){
@@ -33,6 +34,7 @@ interface EncryptedFileRepository {
 
 }
 
+@Single
 class OfflineEncryptedFileRepository(
     private val encryptedFileDao: EncryptedFileDao
 ) : EncryptedFileRepository {

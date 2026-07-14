@@ -14,7 +14,7 @@ import kotlin.time.Instant
     indices = [Index(value = ["name"], unique = true)]
 )
 data class FolderEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
     val password: String? = null,
