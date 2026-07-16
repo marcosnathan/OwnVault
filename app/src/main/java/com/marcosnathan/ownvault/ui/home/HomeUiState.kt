@@ -14,6 +14,7 @@ sealed interface HomeUiEvent {
     data object FolderCreated: HomeUiEvent
     data object FoldersDeleted : HomeUiEvent
     data object FolderRenamed: HomeUiEvent
+    data class Error(val message: String) : HomeUiEvent
 }
 
 sealed interface HomeUserIntent {

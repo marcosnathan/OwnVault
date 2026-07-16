@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.marcosnathan.ownvault.data.FolderOrder
 import com.marcosnathan.ownvault.data.FolderRepository
 import com.marcosnathan.ownvault.model.Folder
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -67,7 +68,10 @@ class HomeViewModel(
                     )
                 )
             } catch (e: Exception){
-                Log.i(HomeViewModel::class.simpleName, "handleCreateFolder: $e")
+                if (e is CancellationException){
+                    throw e
+                }
+                internalUiEvents.send(HomeUiEvent.Error("Folder already exists"))
             }
         }
     }
