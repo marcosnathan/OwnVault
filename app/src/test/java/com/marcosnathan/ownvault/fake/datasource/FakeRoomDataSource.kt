@@ -1,6 +1,6 @@
 package com.marcosnathan.ownvault.fake.datasource
 
-import com.marcosnathan.ownvault.database.model.FolderEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.FolderEntity
 
 object FakeRoomDataSource {
     val fakeFolders =

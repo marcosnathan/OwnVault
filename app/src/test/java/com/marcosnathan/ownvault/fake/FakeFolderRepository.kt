@@ -2,9 +2,9 @@ package com.marcosnathan.ownvault.fake
 
 import com.marcosnathan.ownvault.data.FolderOrder
 import com.marcosnathan.ownvault.data.FolderRepository
-import com.marcosnathan.ownvault.database.model.FolderEntity
-import com.marcosnathan.ownvault.database.model.asExternalModel
-import com.marcosnathan.ownvault.database.model.toEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.FolderEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.asExternalModel
+import com.marcosnathan.ownvault.data.datasource.local.database.model.toEntity
 import com.marcosnathan.ownvault.fake.datasource.FakeRoomDataSource
 import com.marcosnathan.ownvault.model.Folder
 import kotlinx.coroutines.flow.Flow

@@ -1,7 +1,7 @@
 package com.marcosnathan.ownvault.database
 
-import com.marcosnathan.ownvault.database.model.EncryptedFileEntity
-import com.marcosnathan.ownvault.database.model.FolderEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.EncryptedFileEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.FolderEntity
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

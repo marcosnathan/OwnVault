@@ -1,8 +1,8 @@
-package com.marcosnathan.ownvault.database.di
+package com.marcosnathan.ownvault.data.datasource.local.database.di
 
 import android.content.Context
 import androidx.room.Room
-import com.marcosnathan.ownvault.database.OwnVaultDatabase
+import com.marcosnathan.ownvault.data.datasource.local.database.OwnVaultDatabase
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 

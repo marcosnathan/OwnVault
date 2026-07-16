@@ -1,4 +1,4 @@
-package com.marcosnathan.ownvault.database.dao
+package com.marcosnathan.ownvault.data.datasource.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.marcosnathan.ownvault.database.model.FolderEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.FolderEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

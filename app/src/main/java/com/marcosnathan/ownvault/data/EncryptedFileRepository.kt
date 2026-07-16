@@ -1,9 +1,9 @@
 package com.marcosnathan.ownvault.data
 
-import com.marcosnathan.ownvault.database.dao.EncryptedFileDao
-import com.marcosnathan.ownvault.database.model.EncryptedFileEntity
-import com.marcosnathan.ownvault.database.model.asExternalModel
-import com.marcosnathan.ownvault.database.model.toEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.dao.EncryptedFileDao
+import com.marcosnathan.ownvault.data.datasource.local.database.model.EncryptedFileEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.asExternalModel
+import com.marcosnathan.ownvault.data.datasource.local.database.model.toEntity
 import com.marcosnathan.ownvault.model.EncryptedFile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

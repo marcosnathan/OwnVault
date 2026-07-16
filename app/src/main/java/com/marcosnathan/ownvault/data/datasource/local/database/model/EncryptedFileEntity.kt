@@ -1,4 +1,4 @@
-package com.marcosnathan.ownvault.database.model
+package com.marcosnathan.ownvault.data.datasource.local.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

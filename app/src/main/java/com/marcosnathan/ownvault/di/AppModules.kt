@@ -1,7 +1,7 @@
 package com.marcosnathan.ownvault.di
 
-import com.marcosnathan.ownvault.database.di.DaosModule
-import com.marcosnathan.ownvault.database.di.DatabaseModule
+import com.marcosnathan.ownvault.data.datasource.local.database.di.DaosModule
+import com.marcosnathan.ownvault.data.datasource.local.database.di.DatabaseModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 

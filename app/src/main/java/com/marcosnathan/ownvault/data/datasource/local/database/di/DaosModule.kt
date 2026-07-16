@@ -1,8 +1,8 @@
-package com.marcosnathan.ownvault.database.di
+package com.marcosnathan.ownvault.data.datasource.local.database.di
 
-import com.marcosnathan.ownvault.database.OwnVaultDatabase
-import com.marcosnathan.ownvault.database.dao.EncryptedFileDao
-import com.marcosnathan.ownvault.database.dao.FolderDao
+import com.marcosnathan.ownvault.data.datasource.local.database.OwnVaultDatabase
+import com.marcosnathan.ownvault.data.datasource.local.database.dao.EncryptedFileDao
+import com.marcosnathan.ownvault.data.datasource.local.database.dao.FolderDao
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 

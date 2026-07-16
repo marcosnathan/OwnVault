@@ -1,7 +1,7 @@
 package com.marcosnathan.ownvault.ui.home
 
 import app.cash.turbine.test
-import com.marcosnathan.ownvault.database.model.asExternalModel
+import com.marcosnathan.ownvault.data.datasource.local.database.model.asExternalModel
 import com.marcosnathan.ownvault.fake.FakeFolderRepository
 import com.marcosnathan.ownvault.fake.datasource.FakeRoomDataSource
 import com.marcosnathan.ownvault.rules.MainDispatcherRule

@@ -1,4 +1,4 @@
-package com.marcosnathan.ownvault.database.converters
+package com.marcosnathan.ownvault.data.datasource.local.database.converters
 
 import androidx.room.TypeConverter
 import kotlin.time.Instant

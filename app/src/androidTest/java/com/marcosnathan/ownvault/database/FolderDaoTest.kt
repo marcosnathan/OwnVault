@@ -1,7 +1,7 @@
 package com.marcosnathan.ownvault.database
 
 import android.database.sqlite.SQLiteConstraintException
-import com.marcosnathan.ownvault.database.model.FolderEntity
+import com.marcosnathan.ownvault.data.datasource.local.database.model.FolderEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

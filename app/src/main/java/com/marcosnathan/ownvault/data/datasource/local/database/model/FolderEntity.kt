@@ -1,11 +1,9 @@
-package com.marcosnathan.ownvault.database.model
+package com.marcosnathan.ownvault.data.datasource.local.database.model
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 import com.marcosnathan.ownvault.model.Folder
 import kotlin.time.Clock
 import kotlin.time.Instant
